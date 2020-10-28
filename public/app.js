@@ -1,11 +1,11 @@
 let trumpData;
 let sizeTrumpData;
-let connectCounter;
+let connectCounter = -1;
 
 
 
 window.addEventListener('load', function () {
-
+    
     //Open and connect socket
     let socket = io();
     //Listen for confirmation of connection
@@ -16,56 +16,12 @@ window.addEventListener('load', function () {
 
     //Listen for messages named 'msg' from the server
     socket.on('msg', function (data) {
+        
         console.log("Message arrived!");
         console.log(data);
-        connectCounter++; 
-
-            // p5.js code 
-            function setup(){
-            console.log("Setup!");
-            const myCanvas = createCanvas(600,650);
-            myCanvas.parent("canvas-container");
-            }
-
-
-            function draw(){
-                background(250,250,250);
+        connectCounter += 1 ; 
+        console.log("There are" + connectCounter + "users");
             
-                // graph
-                stroke(0);
-                strokeWeight(1);
-                line(50, 600, 550, 600);
-            
-                let sentenceNumber = 0 ;
-                let sentence = ["0%", "25%", "50%", "75%","100%"];
-            
-                for (let j=0; j < 550; j+= 125){
-                    stroke(0);
-                    strokeWeight(1);
-                    line( j + 50, 0, j + 50 , 600);
-                    noStroke();
-                    fill(0);
-                    textSize(15);
-                    textFont('Arial');
-                    textStyle(NORMAL);
-                    text(sentence[sentenceNumber], j + 50 , 625);
-                    sentenceNumber +=1;
-                }
-        
-                // bars
-                sizeTrumpData = (trumpData*500) / 8274
-                if (sizeTrumpData){ 
-                    console.log(sizeTrumpData);
-                    let position = 50 + 150*connectCounter;
-                    noStroke();
-                    fill(random(0,255),random(0,255),random(0,255));
-                    rect(50,position,sizeTrumpData,50)
-                    fill(0,0,0);
-                    textSize(12);
-                    textFont('Arial');
-                    text(trumpData, sizeTrumpData + 60, 30 + position);
-                } 
-             }   
     });
     
 
@@ -105,7 +61,55 @@ window.addEventListener('load', function () {
     });
 });
 
+// p5.js code 
+function setup(){
+    console.log("Setup!");
+    const myCanvas = createCanvas(600,650);
+    myCanvas.parent("canvas-container");
+    background(250,250,250);
+    
+    // graph
+    stroke(0);
+    strokeWeight(1);
+    line(50, 600, 550, 600);
 
+    let sentenceNumber = 0 ;
+    let sentence = ["0%", "25%", "50%", "75%","100%"];
+
+    for (let j=0; j < 550; j+= 125){
+        stroke(0);
+        strokeWeight(1);
+        line( j + 50, 0, j + 50 , 600);
+        noStroke();
+        fill(0);
+        textSize(15);
+        textFont('Arial');
+        textStyle(NORMAL);
+        text(sentence[sentenceNumber], j + 50 , 625);
+        sentenceNumber +=1;
+    }
+
+    }
+
+
+    function draw(){
+
+
+        // bars
+        sizeTrumpData = (trumpData*500) / 8274
+
+        if (sizeTrumpData){ 
+            console.log(sizeTrumpData);
+            let position = 50 + 150*connectCounter;
+            noStroke();
+            fill(random(0,255),random(0,255),random(0,255));
+            rect(50,position,sizeTrumpData,50)
+            fill(0,0,0);
+            textSize(12);
+            textFont('Arial');
+            text(trumpData, sizeTrumpData + 60, 30 + position);
+        } 
+     }   
 
 
 
